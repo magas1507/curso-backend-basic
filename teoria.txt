@@ -1,0 +1,235 @@
+***Qué es Express?
+    Es el framework web más popular de Node, y es la librería subyacente
+    para un gran número de otros frameworks web de Node populares.
+    Proporciona mecanismos para:
+
+    -Escritura de manejadores de peticiones con diferentes verbos HTTP
+    en diferentes caminos URL (rutas).
+
+    -Integración con motores de renderización de “vistas” para generar
+    respuestas mediante la introducción de datos en plantillas.
+
+    -Establecer ajustes de aplicaciones web como qué puerto usar para
+    conectar, y la localización de las plantillas que se utilizan para
+    renderizar la respuesta.
+
+    -Añadir procesamiento de peticiones “middleware” adicional en cualquier
+     punto dentro de la tubería de manejo de la petición
+
+  **Configuración del entorno de desarrollo
+⠀⠀⠀⠀
+
+⠀⠀⠀⠀
+    -Git Ignore:Son archivos ignorados que suelen ser artefactos de
+      compilación y archivos generados por el equipo que pueden derivarse
+      de tu fuente de repositorios o que no deberían confirmarse por algún
+      otro motivo. Ejemplo: node_modules.
+
+    -Linters: Herramientas que realizan la lectura del código fuente
+      Detectan errores/warnings de código
+      Variables sin usar o no definida, llave sin cerrar…
+⠀⠀⠀⠀
+    -Nodemon:Es una herramienta que ayuda a desarrollar aplicaciones en
+      Node.js al reiniciar la aplicación autómaticamente cuando hay
+      cambios en el archivo.
+⠀⠀⠀⠀
+    -gitignore.io:  Contiene la configuración del entorno que específiques
+
+⠀⠀⠀-Editor Config:  Todos los desarrolladores tendrán la misma configuración
+      del proyecto.
+
+  **Pasos:
+
+    1) Crear carpeta del proyecto
+
+    2) Inicializar proyecto con npm comando: npm init -y
+
+    3) Inicializar git init
+
+    4) Crear archivos de configuración:
+        - / Link de .gitignore para las configuraciones https://www.toptal.com/developers/gitignore/
+        - crea .eslintrc.json, .gitignore y .editorconfig
+        -  En VS instalar el Pluging EditorConfig /
+
+    5) Crear archivo index.js
+
+    6)Crear scripts dentro del package.json
+
+    7)Instalar dependencias:
+      -npm i nodemon eslint eslint-config-prettier eslint-plugin-prettier prettier -D /
+        Para qué?
+        funcione el entorno se instala las dependencias, teenr un entorno de desarrollo
+        y un servidor
+
+    8)Probar entornos desde los scripts npm
+
+
+  **## instalación de Express.js y tu primer servidor HTTP
+
+    *Para instalar express:
+
+      -npm i express
+
+    *Código del primer servidor.
+
+
+    / traemos o requerimos a express
+    /**
+    * La función express() es una función top-level
+    * exportada por el módulo express
+
+    const express = require("express");
+
+    // creamos una aplicación
+    const app = express();
+
+    //le decimos el puerto en que queremos que corra la aplicación
+    const port = 3000;
+
+    //definimos la ruta
+    // tiene un callback que va a ejecutar la respuesta que enviemos al cliente.
+    //el callback siempre tiene dos parámetros "req" y "res".
+
+    app.get ("/", (req, res) => {
+      res.send("hola mi server en express");
+    });
+
+    //le decimos a la aplicación en que puerto escuchar
+    // además creamos un callback que nos avisará cuando esté corriendo
+    app.listen(port, () => {
+      console.log("mi port" + port);
+    });
+
+
+    -La aplicación inicia un servidor y escucha las conexiones en el puerto 3000.
+    La aplicación responde con “Hello World!” para las solicitudes al URL raíz (`/`) o a
+    la ***ruta*** raíz. Para cada vía de acceso diferente, responderá con un error 
+    **404 Not Found**
+      -`req` (solicitud) y `res` (respuesta) son exactamente los mismos objetos que
+      proporciona Node, por lo que puede invocar `req.pipe()`, `req.on('data', callback)`
+      y cualquier otro objeto que invocaría sin estar Express implicado
+
+
+**Routing
+  se refiere a determinar cómo una aplicación responde a una solicitud de cliente a un punto
+  final en particular y un método de solicitud HTTP específico.
+
+  La definición de la ruta adopta la siguiente estructura:
+
+  -app.METHOD(PATH, HANDLER)
+
+  -app es una instancia de express.
+
+  -METHOD es un método de solicitud HTTP, en minúsculas.
+
+  -PATH es una ruta en el servidor.
+
+  -HANDLER es la función ejecutada cuando la ruta coincide.
+
+**Métodos de ruta**
+
+  Un método de ruta se deriva de uno de los métodos HTTP y se adjunta a una instancia de
+  la clase `express`.
+
+  El siguiente código es un ejemplo de las rutas que se definen para los métodos GET y
+  POST a la raíz de la aplicación.
+
+        // GET method route
+      app.get('/', function (req, res) {
+        res.send('GET request to the homepage');
+      });
+
+      // POST method route
+      app.post('/', function (req, res) {
+        res.send('POST request to the homepage');
+      });
+  **Métodos de respuestas
+
+    Los métodos en el objeto de respuesta (`res`) de la tabla siguiente pueden enviar una
+    respuesta al cliente y terminar el ciclo de solicitud/respuestas.
+    Si ninguno de estos métodos se invoca desde un handle de rutas, la solicitud de cliente
+    se dejará colgada.
+
+  **API Restful.
+    -REST: Representational State Transfer
+      Es una convención que comúnmente se utiliza para desarrollar servicios web, que al
+      final se comunican por el protocolo HTTP.
+
+      Este protocolo tiene varios métodos:
+
+    *El método GET
+    -PUT
+    -PUSH (Son hermanitos)
+    -POST
+    -DELETE.
+
+    La convención de REST nos dice que por cada casi entidad que tengamos tendremos una ruta,
+    un endpoint con un nombre, y también deberíamos tener un id por cada producto.
+
+      -Get: Si queremos obtener la lista de productos usaremos el método GET con la ruta de
+        productos.
+
+         Es el método que se utiliza para solicitar información, no deberia tener otros efectos
+         a parte de recibir la data. Por ejemplo: Solicitarle a la aplicación todos los datos de
+         una entidad de la DB o los datos de un ID espécífico.
+
+          -Sí queremos una ruta en particular repetimos el endpoint, pero esta vez enviamos
+          el id.
+
+      -PUT, podríamos usar Replace y modificar una lista entera (mala práctica), lo ideal
+        es usarlo con un solo producto.
+
+        Es el método modificador, usualmente se envía también el id del elemento que deseo
+        modificar, Por ejemplo: Soy un Admin y deseo modificar un titulo, una imágen, un texto.
+        Datos en lista y en detalle (MALA PRACTICA)
+
+      -PATCH, podemos hacer una actualización mucho más detalladas, de que cosas quiero
+        modificar.
+
+        *Diferencia entre PUT y PATCH
+          -PUT tiene que actualizar todos los valores
+          -PATCH actualiza solo un valor deseado
+
+      -POST, nos sirve para crear.
+
+      -DELETE, no deberíamos eliminar en masa, es muy peligroso, ideal es eliminar uno
+        a uno
+
+**Anatomía de un URL
+    Dependiendo del diseño que se desea adoptar, una URL se compone de lo siguientes
+    elementos:
+
+  Http://localhost:3000/api/v1/users/{id}?name='Maga'
+
+  Http://localhost:3000/ : host (nombre de dominio)
+
+  /api/v1/users/{id}?name='Maga': ruta   (Endpoint REST)
+
+  http : protocolo
+  3000 : puerto
+  api: Contexto
+  v1: version
+  users: Recurso
+  {id}: parametro
+
+  -Protocolo - Define el medio con el cual se comunicarán los aplicativos (SMTP, FTP, SSH, etc),
+  en el caso web HTTP o HTTPS.
+
+  -Host - Conocido como el nombre del dominio que define un nombre identificativo de nuestro
+  servidor web; en localhost definimos como scope de la máquina en tema.
+
+  -Protocolo - Definiendo el acceso de comunicación que generalmente se relaciona con el
+    protocolo Http(8080) o Https(443).
+
+  -Endpoint - Definiendo la ruta de acceso a la información la cual puede definirse como:
+
+  -Contexto - Definición raíz de la API REST
+
+  -Versión - (Opcional) Etiqueta
+
+  -Recurso - (Opcional) Modelo de información
+
+  -Parámetro - (Opcional) Selección índice o pivote
+
+  -Query - (Opcional) Solicitud iterativo
+
