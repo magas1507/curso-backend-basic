@@ -1,6 +1,8 @@
 const express = require('express');
 const { faker } = require('@faker-js/faker');
 
+//exporto routes
+const routerApi = require('./routes');
 const app = express();
 const port = 3005;
 
@@ -12,92 +14,57 @@ app.get('/nueva-ruta', (req, res)=>{
   res.send('Hola, sou uma nova rota');
 })
 
-app.get('/producto', (req, res)=>{
-  res.json({
-    name: 'producto1',
-    price: 1000
-  });
-})
+routerApi(app);
+// app.get('/categories/:categoryId/products/:productId',(req,res)=>{
+//   const { categoryId, productId } = req.params;
+//   res.json({
+//     categoryId,
+//     productId,
+//   })
+// })
 
-//Get: parámetros query
-app.get('/products',(req, res)=>{
-  const products = [];
-  const { size } = req.query;
-  const limit = size || 10;
+// user
+// const users = [
+//   {
+//     id: 1,
+//     name:'Rhysan',
+//     country:'Corte de la noche',
+//     city:'Velaris',
+//     age:'500 years old'
+//   },
+//   {
+//     id: 2,
+//     name:'Azriel',
+//     country:'Corte de la noche',
+//     city:'Velaris',
+//     age:'350 years old'
+//   },
+//   {
+//     id: 3,
+//     name:'Casian',
+//     country:'Corte de la noche',
+//     city:'Velaris',
+//     age:'450 years old'
+//   },
+// ];
 
-  for (let index = 0; index < limit; index++) {
-    products.push({
-      name: faker.commerce.productName(),
-      price: parseInt(faker.commerce.price(), 10),
-      image: faker.image.url(),
-    })
-  }
-  res.json(products);
-})
+// app.get('/users',(req,res)=>{
+//   res.json(users);
+// })
 
-app.get('/products/:id', (req, res)=>{
-  const { id } = req.params;
+// app.get('/users/:userId',(req , res)=>{
+//   const { userId } = req.params;
 
-  res.json({
-    id,
-    name:'Product 2',
-    price: 2000
-  })
-})
+//   const getUser = users.find((user)=> user.id === Number(userId));
 
-app.get('/categories/:categoryId/products/:productId',(req,res)=>{
-  const { categoryId, productId } = req.params;
-  res.json({
-    categoryId,
-    productId,
-  })
-})
+//   if (getPerson) {
 
-// Personas
-const persons = [
-  {
-    id: 1,
-    name:'Rhysan',
-    country:'Corte de la noche',
-    city:'Velaris',
-    age:'500 years old'
-  },
-  {
-    id: 2,
-    name:'Azriel',
-    country:'Corte de la noche',
-    city:'Velaris',
-    age:'350 years old'
-  },
-  {
-    id: 3,
-    name:'Casian',
-    country:'Corte de la noche',
-    city:'Velaris',
-    age:'450 years old'
-  },
-];
+//     res.json(getPerson)
+//   } else {
+//     res.json({ success: false, message:'person not found'})
+//   }
 
-app.get('/persons',(req,res)=>{
-  res.json(persons);
-})
-
-app.get('/persons/:personId',(req , res)=>{
-  const { personId } = req.params;
-
-  const getPerson = persons.find((person)=> person.id === Number(personId));
-
-  if (getPerson) {
-
-    res.json(getPerson)
-  } else {
-    res.json({ success: false, message:'person not found'})
-  }
-
-})
-
-
-
+// })
 
 app.listen(port, ()=>{
   console.log('Mi port' + port);

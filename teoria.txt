@@ -233,3 +233,72 @@
 
   -Query - (Opcional) Solicitud iterativo
 
+***Single responsability principle
+
+    Express.Router
+      -Crea un controlador(handler) de rutas modulares y montables.
+      -Una instancia de Router es un sistema de enrutamiento y middleware completo, por esa
+      razón lo podemos tomar como si fuera una mini app.
+
+      Cada modulo de nuestras rutas es una mini aplicación en la que creamos sus rutas
+      independientes y podemos incluirle middlewares, que se ejecutarán cuando se coincida
+      con el path.
+
+      Qué es un middleware?
+        Un middleware es un bloque de código que se ejecuta entre la petición que hace el
+        usuario (request) hasta que la petición llega al servidor.
+
+        App.use
+        app.use Lo que hace es montar un middleware en la ruta especificada. Por ejemplo:
+
+          var express = require('express')
+          var router = express.Router()
+
+          // middleware específico a este router
+          router.use('/', function (req, res, next) {
+            console.log('Hola, soy el middleware')
+            next() // se utiliza para que se ejecute el router.get
+          })
+          // define the home page route
+          router.get('/', function (req, res) {
+            res.send('Birds home page')
+          })
+          // define the about route
+          router.get('/about', function (req, res) {
+            res.send('About birds')
+          })
+
+          module.exports = router
+
+  Single responsability principle
+
+    -El principio de responsabilidad única o SRP en ingeniería de software
+      establece que cada módulo o clase debe tener responsabilidad sobre
+      una sola parte de la funcionalidad
+
+    -para nuestro proyecto separaremos las responsabilidades por cada
+      entidad, crearemos una nueva carpeta routes en la raíz con archivos
+     entidad.router.js por cada entidad
+
+    Estos archivos tendrán su propio router por entidad con todas sus
+      rutas correspondientes y serán exportados cada uno como modulo,
+      la idea es crear un enrutador aparte por cada entidad y después
+      inyectarlo a la aplicación
+
+    Eje:routes/product.router.js donde:
+      - nos traemos el  router y sustituimos /product por ese router
+
+      - luego creamos un archivo principal con nombre index.js dentro de la carpeta routes,
+        que importa el router de cada una de las entidades y contiene una función routerApi
+        que recibe como parámetro el server o aplicación y hace uso del router importado de
+        una entidad u otra dependiendo el inicio de la url visitada y será exportada como un
+        modulo
+          routes/index.js:
+
+      -como ultimo paso, en nuestro index.js que se encuentra en la raíz del proyecto, debemos
+      importar esta función routerApi anteriormente creada, ejecutarla y pasarle por parámetro
+      el server o aplicación inicializada con Express que se encuentra escuchando en el puerto seleccionado
+index.js:
+
+
+
